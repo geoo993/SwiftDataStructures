@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AAF80D1B2BACE8410024935E /* FilterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF80D1A2BACE8410024935E /* FilterFactory.swift */; };
 		AAFD24C32BAB6D110051303A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAFD24B52BAB6D110051303A /* Preview Assets.xcassets */; };
 		AAFD24C42BAB6D110051303A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAFD24B72BAB6D110051303A /* Assets.xcassets */; };
 		AAFD24C52BAB6D110051303A /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD24B82BAB6D110051303A /* CheckboxView.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		AA11D39D2BA9956D00338491 /* DataStructures.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataStructures.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAF80D1A2BACE8410024935E /* FilterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterFactory.swift; sourceTree = "<group>"; };
 		AAFD24B52BAB6D110051303A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AAFD24B72BAB6D110051303A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAFD24B82BAB6D110051303A /* CheckboxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
@@ -77,15 +79,16 @@
 			children = (
 				AAFD24B62BAB6D110051303A /* Preview Content */,
 				AAFD24B72BAB6D110051303A /* Assets.xcassets */,
+				AAFD24C02BAB6D110051303A /* DataStructuresApp.swift */,
 				AAFD24B82BAB6D110051303A /* CheckboxView.swift */,
 				AAFD24B92BAB6D110051303A /* Extensions.swift */,
+				AAF80D1A2BACE8410024935E /* FilterFactory.swift */,
 				AAFD24BA2BAB6D110051303A /* FilterItem.swift */,
 				AAFD24BB2BAB6D110051303A /* FilterItem+Mapper.swift */,
 				AAFD24BC2BAB6D110051303A /* FiltersRootView.swift */,
 				AAFD24BD2BAB6D110051303A /* FiltersRootViewModel.swift */,
 				AAFD24BE2BAB6D110051303A /* FilterSummaryView.swift */,
 				AAFD24BF2BAB6D110051303A /* FilterView.swift */,
-				AAFD24C02BAB6D110051303A /* DataStructuresApp.swift */,
 				AAFD24C12BAB6D110051303A /* TreeNode.swift */,
 			);
 			path = DataStructures;
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAFD24C72BAB6D110051303A /* FilterItem.swift in Sources */,
+				AAF80D1B2BACE8410024935E /* FilterFactory.swift in Sources */,
 				AAFD24C52BAB6D110051303A /* CheckboxView.swift in Sources */,
 				AAFD24C92BAB6D110051303A /* FiltersRootView.swift in Sources */,
 				AAFD24CE2BAB6D110051303A /* TreeNode.swift in Sources */,

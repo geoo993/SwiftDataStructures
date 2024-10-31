@@ -3,7 +3,7 @@ import Foundation
 // https://medium.com/swlh/implementing-tree-data-structure-in-swift-39dc5a28da72
 // https://www.kodeco.com/1053-swift-algorithm-club-swift-tree-data-structure/page/2
 
-class TreeNode<T> {
+final class TreeNode<T> {
     weak var parent: TreeNode?
     var value: T
     var children: [TreeNode] = []

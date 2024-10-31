@@ -57,6 +57,11 @@ extension TreeNode where T: Equatable {
 
 
 func makeFootballUniverse() -> TreeNode<String> {
+    let trees = [
+        [[TreeNode("Premier League")], [TreeNode("Premier League")]],
+        [[TreeNode("Premier League")], TreeNode("Premier League")]
+    ]
+    
     let tree = TreeNode("Euro Clubs")
     
     let premierL = TreeNode("Premier League")

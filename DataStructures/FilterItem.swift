@@ -1,18 +1,38 @@
 import Foundation
 
+protocol FilterIdentifiable: Sendable {
+    var id : String { get }
+    var title: String { get }
+}
+
 struct FilterItem: Identifiable, Hashable {
-    var id: String
-    var title: String
+    let wrappedItem: FilterIdentifiable
     var isSelected: Bool = false
     
-    init(id: String = UUID().uuidString, title: String) {
-        self.id = id
-        self.title = title
+    var id: String {
+        wrappedItem.id
     }
     
+    var title: String {
+        wrappedItem.title
+    }
+
+    init<I: FilterIdentifiable>(_ wrappedItem: I) {
+        self.wrappedItem = wrappedItem
+    }
+
+    static func == (lhs: FilterItem, rhs: FilterItem) -> Bool {
+        lhs.id == rhs.id
+    }
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+}
+
+struct RootItem: FilterIdentifiable {
+    var id: String { "root" }
+    var title: String { "Filters" }
 }
 
 enum FilterDefaultSelection {
@@ -28,7 +48,7 @@ enum FilterDefaultSelection {
     }
 }
 
-enum FilterCategoryType: String, Identifiable, CaseIterable {
+enum FilterCategoryType: String, FilterIdentifiable, CaseIterable {
     case cars
     case fruits
     case footballTeams
@@ -65,16 +85,16 @@ enum FilterCategoryType: String, Identifiable, CaseIterable {
     }
 }
 
-public enum Tesla: String, Identifiable {
+enum Tesla: String, FilterIdentifiable {
     case modelY
     case modelS
     case modelX
     
-    public var id: String {
+    var id: String {
         rawValue
     }
 
-    public var title: String {
+    var title: String {
         switch self {
         case .modelY:
             return "Model Y"
@@ -86,8 +106,8 @@ public enum Tesla: String, Identifiable {
     }
 }
 
-public enum CarFilter: Identifiable, CaseIterable {
-    public static var allCases: [CarFilter] = [
+enum CarFilter: FilterIdentifiable, CaseIterable {
+    static var allCases: [CarFilter] = [
         .tesla([.modelS, .modelX, .modelY]),
         .bmw, .audi, .ferrari, .cadillac, .porche
     ]
@@ -99,7 +119,7 @@ public enum CarFilter: Identifiable, CaseIterable {
     case cadillac
     case porche
     
-    public var id: String {
+    var id: String {
         switch self {
         case .tesla:
             return "tesla"
@@ -116,7 +136,7 @@ public enum CarFilter: Identifiable, CaseIterable {
         }
     }
     
-    public var title: String {
+    var title: String {
         switch self {
         case .tesla:
             return "Tesla"
@@ -134,7 +154,7 @@ public enum CarFilter: Identifiable, CaseIterable {
     }
 }
 
-public enum FruitFilter: String, Identifiable, CaseIterable {
+enum FruitFilter: String, FilterIdentifiable, CaseIterable {
     case banana
     case apple
     case pear
@@ -145,11 +165,11 @@ public enum FruitFilter: String, Identifiable, CaseIterable {
     case grape
     case orange
     
-    public var id: String {
+    var id: String {
         rawValue
     }
     
-    public var title: String {
+    var title: String {
         switch self {
         case .banana:
             return "Banana"
@@ -173,17 +193,17 @@ public enum FruitFilter: String, Identifiable, CaseIterable {
     }
 }
 
-public enum PL: String, Identifiable {
+enum PL: String, FilterIdentifiable {
     case arsenal
     case manUtd
     case manCity
     case liverpool
     
-    public var id: String {
+    var id: String {
         rawValue
     }
 
-    public var title: String {
+    var title: String {
         switch self {
         case .arsenal:
             return "Arsenal"
@@ -197,16 +217,16 @@ public enum PL: String, Identifiable {
     }
 }
 
-public enum LaLiga: String, Identifiable {
+enum LaLiga: String, FilterIdentifiable {
     case realMadrid
     case athletico
     case barcelona
     
-    public var id: String {
+    var id: String {
         rawValue
     }
 
-    public var title: String {
+    var title: String {
         switch self {
         case .realMadrid:
             return "Real Madrid"
@@ -218,18 +238,18 @@ public enum LaLiga: String, Identifiable {
     }
 }
 
-public enum SerieA: String, Identifiable {
+enum SerieA: String, FilterIdentifiable {
     case roma
     case milan
     case napoli
     case juventus
     case inter
     
-    public var id: String {
+    var id: String {
         rawValue
     }
 
-    public var title: String {
+    var title: String {
         switch self {
         case .roma:
             return "Roma"
@@ -246,8 +266,8 @@ public enum SerieA: String, Identifiable {
 }
 
 
-public enum FootallFilter: Identifiable, CaseIterable {
-    public static var allCases: [FootallFilter] = [
+enum FootallFilter: FilterIdentifiable, CaseIterable {
+    static var allCases: [FootallFilter] = [
         .pl([.arsenal, .liverpool, .manCity, .manUtd]),
         .laLiga([.athletico, .barcelona, .realMadrid]),
         .serieA([.inter, .juventus, .milan, .napoli, .roma])
@@ -257,7 +277,7 @@ public enum FootallFilter: Identifiable, CaseIterable {
     case laLiga([LaLiga])
     case serieA([SerieA])
     
-    public var id: String {
+    var id: String {
         switch self {
         case .pl: return "footballPremierLeague"
         case .laLiga: return "footballLaLiga"
@@ -265,7 +285,7 @@ public enum FootallFilter: Identifiable, CaseIterable {
         }
     }
     
-    public var title: String {
+    var title: String {
         switch self {
         case .pl:
             return "Premier League"
@@ -277,7 +297,7 @@ public enum FootallFilter: Identifiable, CaseIterable {
     }
 }
 
-public enum Dog: String, Identifiable {
+enum Dog: String, FilterIdentifiable {
     case poodle
     case bulldog
     case chihuahua
@@ -304,8 +324,8 @@ public enum Dog: String, Identifiable {
     }
 }
 
-public enum PetFilter: Identifiable, CaseIterable {
-    public static var allCases: [PetFilter] = [
+enum PetFilter: FilterIdentifiable, CaseIterable {
+    static var allCases: [PetFilter] = [
         .cat, .parrot, .horse,
         .dog([.poodle, .bulldog, .chihuahua, .goldendoodle, .germanShepherd]),
         .hamster,
@@ -319,7 +339,7 @@ public enum PetFilter: Identifiable, CaseIterable {
     case hamster
     case fish
     
-    public var id: String {
+    var id: String {
         switch self {
         case .cat:
             return "cat"
@@ -336,7 +356,7 @@ public enum PetFilter: Identifiable, CaseIterable {
         }
     }
     
-    public var title: String {
+    var title: String {
         switch self {
         case .cat:
             return "Cat"
@@ -351,5 +371,25 @@ public enum PetFilter: Identifiable, CaseIterable {
         case .fish:
             return "Fish"
         }
+    }
+}
+
+struct FilterResults {
+    let cars: [CarFilter]
+    let fruits: [FruitFilter]
+    let footballTeams: [FootallFilter]
+    let pets: [PetFilter]
+
+}
+
+extension FilterResults: CustomStringConvertible {
+    var description: String {
+        let text = """
+        [\(cars.map(\.title).joined(separator: ","))]
+        [\(fruits.map(\.title).joined(separator: ","))]
+        [\(footballTeams.map(\.title).joined(separator: ","))]
+        [\(pets.map(\.title).joined(separator: ","))]
+        """
+        return text
     }
 }

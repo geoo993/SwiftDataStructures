@@ -45,6 +45,7 @@ struct FilterSummaryView: View {
             })
             .frame(maxWidth: .infinity, alignment: .center)
             Button(action: {
+                viewModel.seeResults()
                 dismiss()
             }, label: {
                 Text("Apply")

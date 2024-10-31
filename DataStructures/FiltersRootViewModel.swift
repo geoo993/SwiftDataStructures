@@ -11,18 +11,13 @@ enum Event: Hashable {
     case resetAll
 }
 
-extension FilterItem {
-    fileprivate static var root: Self {
-        FilterItem(title: "Filters")
-    }
-}
-
 @MainActor
 class FiltersRootViewModel: ObservableObject {
-    @Published private var allFilters: TreeNode<FilterItem> = .init(.root)
+    @Published private var allFilters: TreeNode<FilterItem> = .init(FilterItem(RootItem()))
     @Published private var currentCategory: FilterCategoryType?
     @Published private var currentFilter: TreeNode<FilterItem>?
     @Published private(set) var selectedFilters: String?
+    private let factory = FilterFactory()
     private let categories: [FilterCategoryType]
     
     init(categories: [FilterCategoryType]) {
@@ -66,22 +61,13 @@ class FiltersRootViewModel: ObservableObject {
 
     private func setChildrens(for category: FilterCategoryType) {
         guard let filter = allFilters.search(id: category.id) else { return }
-        let newValues = filter.copy()
+        let item = filter.copy()
         defer {
             currentCategory = category
-            currentFilter = newValues
+            currentFilter = item
         }
-        guard newValues.children.isEmpty else { return }
-        switch category {
-        case .cars:
-            newValues.add(cars: CarFilter.allCases)
-        case .footballTeams:
-            newValues.add(football: FootallFilter.allCases)
-        case .fruits:
-            newValues.add(fruits: FruitFilter.allCases)
-        case .pets:
-            newValues.add(pets: PetFilter.allCases)
-        }
+        guard item.children.isEmpty else { return }
+        factory.createItem(for: category, in: item)
     }
     
     private func applyCurrent() {
@@ -112,5 +98,10 @@ class FiltersRootViewModel: ObservableObject {
     
     private func select(id: String, isSelected: Bool) {
         currentFilter?.selectWithChildrens(for: id, isSelected: isSelected)
+    }
+    
+    func seeResults() {
+        let result = factory.results(from: allFilters)
+        print(result)
     }
 }
